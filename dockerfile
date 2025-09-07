@@ -1,11 +1,17 @@
-# Use a imagem do Nginx como base
+# Imagem base leve com Nginx
 FROM nginx:alpine
 
-# Copie os arquivos do site para o diretório padrão do Nginx
+# Remove configuração padrão
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copia os arquivos do seu site para a pasta do Nginx
 COPY . /usr/share/nginx/html
 
-# Expõe a porta 80
+# Copia config customizada do Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expõe a porta 80 para a web
 EXPOSE 80
 
-# Comando para rodar o Nginx em modo foreground
+# Comando para rodar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
