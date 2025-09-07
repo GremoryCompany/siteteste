@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfólio | Gremory</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* Estilo do relógio */
+    #relogio {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: rgba(0,0,0,0.4);
+      padding: 5px 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    /* Botão de Suporte */
+    #btnSuporte {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366; /* Verde WhatsApp */
+      color: white;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #btnSuporte:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    }
+
+    /* Notificação de download */
+    #notificacaoDownload {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1000;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <!-- Relógio -->
+  <div id="relogio"></div>
+
+  <!-- Menu lateral -->
+  <div id="sideMenu" class="side-menu">
+    <div>
+      🎵 YouTube Música
+      <input type="text" id="ytMusicQuery" placeholder="Digite o nome da música">
+      <button onclick="baixarAudio()">Baixar</button>
+    </div>
+    <div>
+      🎬 YouTube Vídeo
+      <input type="text" id="ytVideoQuery" placeholder="Digite o nome do vídeo">
+      <button onclick="baixarVideo()">Baixar</button>
+    </div>
+    <div>
+      📱 TikTok
+      <input type="text" id="tiktokUrl" placeholder="Cole o link do TikTok">
+      <button onclick="baixarTikTok()">Baixar</button>
+    </div>
+    <div>
+      📸 Instagram
+      <input type="text" id="instagramUrl" placeholder="Cole o link do Instagram">
+      <button onclick="baixarInstagram()">Baixar</button>
+    </div>
+    <div>
+      🎥 Kwai
+      <input type="text" id="kwaiUrl" placeholder="Cole o link do Kwai">
+      <button onclick="baixarKwai()">Baixar</button>
+    </div>
+    <div>
+      🐦 Twitter/X
+      <input type="text" id="twitterUrl" placeholder="Cole o link do Twitter/X">
+      <button onclick="baixarTwitter()">Baixar</button>
+    </div>
+    <div>
+      🖼️ Removedor/HD Foto
+      <input type="text" id="fotoUrl" placeholder="Cole o link da imagem">
+      <button onclick="removerFoto()">Processar</button>
+    </div>
+  </div>
+
+  <!-- Música de fundo -->
+  <audio autoplay loop>
+    <source src="https://server1.mtabrasil.com.br/play?id=ikbBQ6c6xSY" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div class="container">
+    <img src="assets/img/profile.jpg" alt="Foto de perfil" class="profile-pic" />
+    <h1>Loserzinn Gremory</h1>
+    <p>Bem-vindo ao meu portfólio!</p>
+
+    <div class="buttons">
+      <a href="https://discord.com/users/SEU_ID" target="_blank">Discord</a>
+      <a href="https://www.youtube.com/@Loserzinn" target="_blank">YouTube</a>
+      <a href="https://wa.me/5521979325525" target="_blank">WhatsApp</a>
+    </div>
+
+    <!-- Botão de Suporte -->
+    <a id="btnSuporte" href="https://wa.me/5521973747709?text=Ola,%20necessito%20de%20ajuda%20no%20site" target="_blank">
+      🟢 Suporte
+    </a>
+  </div>
+
+  <footer>© Gremory Company</footer>
+
+  <!-- Notificação -->
+  <div id="notificacaoDownload"></div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("sideMenu").classList.toggle("open");
+    }
+
+    // Relógio
+    function atualizarRelogio() {
+      const now = new Date();
+      const horas = now.getHours().toString().padStart(2,'0');
+      const minutos = now.getMinutes().toString().padStart(2,'0');
+      const segundos = now.getSeconds().toString().padStart(2,'0');
+      document.getElementById('relogio').innerText = `${horas}:${minutos}:${segundos}`;
+    }
+    setInterval(atualizarRelogio, 1000);
+    atualizarRelogio();
+
+    // Função de notificação
+    function mostrarNotificacao(msg) {
+      const noti = document.getElementById('notificacaoDownload');
+      noti.innerText = msg;
+      noti.style.display = 'block';
+      setTimeout(() => { noti.style.display = 'none'; }, 3000);
+    }
+
+    // Função de download com notificação
+    async function downloadBlob(url, filename) {
+      mostrarNotificacao(`Download iniciado: ${filename}`);
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      window.URL.revokeObjectURL(a.href);
+    }
+
+    // Funções de download
+    async function baixarAudio() {
+      const query = document.getElementById('ytMusicQuery').value;
+      if(!query){ alert("Digite o nome da música!"); return; }
+      try{
+        const res = await fetch(`http://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        if(!data.resultado || data.resultado.length === 0){ alert("Nenhum resultado encontrado"); return; }
+        const videoUrl = data.resultado[0].url;
+        await downloadBlob(`http://speedhosting.cloud:2009/download/play-audio?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp3`);
+      }catch(e){ console.error(e); alert("Erro ao baixar áudio!"); }
+    }
+
+    async function baixarVideo() {
+      const query = document.getElementById('ytVideoQuery').value;
+      if(!query){ alert("Digite o nome do vídeo!"); return; }
+      try{
+        const res = await fetch(`http://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        if(!data.resultado || data.resultado.length === 0){ alert("Nenhum resultado encontrado"); return; }
+        const videoUrl = data.resultado[0].url;
+        await downloadBlob(`http://speedhosting.cloud:2009/download/play-video?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp4`);
+      }catch(e){ console.error(e); alert("Erro ao baixar vídeo!"); }
+    }
+
+    async function baixarTikTok() {
+      const url = document.getElementById('tiktokUrl').value;
+      if(!url){ alert("Cole o link do TikTok!"); return; }
+      try{
+        const res = await fetch(`http://speedhosting.cloud:2009/download/tiktok?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+        if(!data.status || !data.resultado){ alert("Erro ao buscar o vídeo!"); return; }
+        const titulo = data.resultado.titulo.replace(/[^\w\s]/gi,'');
+        await downloadBlob(data.resultado.video, `${titulo}.mp4`);
+        await downloadBlob(data.resultado.audio, `${titulo}.mp3`);
+      }catch(e){ console.error(e); alert("Erro ao baixar TikTok!"); }
+    }
+
+    async function baixarInstagram() {
+      const url = document.getElementById('instagramUrl').value;
+      if(!url){ alert("Cole o link do Instagram!"); return; }
+      await downloadBlob(`http://speedhosting.cloud:2009/download/instagram?url=${encodeURIComponent(url)}`, "instagram.mp4");
+    }
+
+    async function baixarKwai() {
+      const url = document.getElementById('kwaiUrl').value;
+      if(!url){ alert("Cole o link do Kwai!"); return; }
+      await downloadBlob(`http://speedhosting.cloud:2009/download/kwai?url=${encodeURIComponent(url)}`, "kwai.mp4");
+    }
+
+    async function baixarTwitter() {
+      const url = document.getElementById('twitterUrl').value;
+      if(!url){ alert("Cole o link do Twitter/X!"); return; }
+      await downloadBlob(`http://speedhosting.cloud:2009/download/twitter?url=${encodeURIComponent(url)}`, "twitter.mp4");
+    }
+
+    async function removerFoto() {
+      const url = document.getElementById('fotoUrl').value;
+      if(!url){ alert("Cole o link da imagem!"); return; }
+      await downloadBlob(`http://speedhosting.cloud:2009/ferramentas/hd?img=${encodeURIComponent(url)}`, "foto.png");
+    }
+  </script>
+</body>
+</html>
