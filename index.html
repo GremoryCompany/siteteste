@@ -172,11 +172,11 @@
       const query = document.getElementById('ytMusicQuery').value;
       if(!query){ alert("Digite o nome da música!"); return; }
       try{
-        const res = await fetch(`http://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
+        const res = await fetch(`https://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
         const data = await res.json();
         if(!data.resultado || data.resultado.length === 0){ alert("Nenhum resultado encontrado"); return; }
         const videoUrl = data.resultado[0].url;
-        await downloadBlob(`http://speedhosting.cloud:2009/download/play-audio?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp3`);
+        await downloadBlob(`https://speedhosting.cloud:2009/download/play-audio?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp3`);
       }catch(e){ console.error(e); alert("Erro ao baixar áudio!"); }
     }
 
@@ -184,11 +184,11 @@
       const query = document.getElementById('ytVideoQuery').value;
       if(!query){ alert("Digite o nome do vídeo!"); return; }
       try{
-        const res = await fetch(`http://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
+        const res = await fetch(`https://speedhosting.cloud:2009/pesquisas/ytsearch?query=${encodeURIComponent(query)}`);
         const data = await res.json();
         if(!data.resultado || data.resultado.length === 0){ alert("Nenhum resultado encontrado"); return; }
         const videoUrl = data.resultado[0].url;
-        await downloadBlob(`http://speedhosting.cloud:2009/download/play-video?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp4`);
+        await downloadBlob(`https://speedhosting.cloud:2009/download/play-video?url=${encodeURIComponent(videoUrl)}`, `${data.resultado[0].title.replace(/[^\w\s]/gi,'')}.mp4`);
       }catch(e){ console.error(e); alert("Erro ao baixar vídeo!"); }
     }
 
@@ -196,7 +196,7 @@
       const url = document.getElementById('tiktokUrl').value;
       if(!url){ alert("Cole o link do TikTok!"); return; }
       try{
-        const res = await fetch(`http://speedhosting.cloud:2009/download/tiktok?url=${encodeURIComponent(url)}`);
+        const res = await fetch(`https://speedhosting.cloud:2009/download/tiktok?url=${encodeURIComponent(url)}`);
         const data = await res.json();
         if(!data.status || !data.resultado){ alert("Erro ao buscar o vídeo!"); return; }
         const titulo = data.resultado.titulo.replace(/[^\w\s]/gi,'');
@@ -208,26 +208,27 @@
     async function baixarInstagram() {
       const url = document.getElementById('instagramUrl').value;
       if(!url){ alert("Cole o link do Instagram!"); return; }
-      await downloadBlob(`http://speedhosting.cloud:2009/download/instagram?url=${encodeURIComponent(url)}`, "instagram.mp4");
+      await downloadBlob(`https://speedhosting.cloud:2009/download/instagram?url=${encodeURIComponent(url)}`, "instagram.mp4");
     }
 
     async function baixarKwai() {
       const url = document.getElementById('kwaiUrl').value;
       if(!url){ alert("Cole o link do Kwai!"); return; }
-      await downloadBlob(`http://speedhosting.cloud:2009/download/kwai?url=${encodeURIComponent(url)}`, "kwai.mp4");
+      await downloadBlob(`https://speedhosting.cloud:2009/download/kwai?url=${encodeURIComponent(url)}`, "kwai.mp4");
     }
 
     async function baixarTwitter() {
       const url = document.getElementById('twitterUrl').value;
       if(!url){ alert("Cole o link do Twitter/X!"); return; }
-      await downloadBlob(`http://speedhosting.cloud:2009/download/twitter?url=${encodeURIComponent(url)}`, "twitter.mp4");
+      await downloadBlob(`https://speedhosting.cloud:2009/download/twitter?url=${encodeURIComponent(url)}`, "twitter.mp4");
     }
 
     async function removerFoto() {
       const url = document.getElementById('fotoUrl').value;
       if(!url){ alert("Cole o link da imagem!"); return; }
-      await downloadBlob(`http://speedhosting.cloud:2009/ferramentas/hd?img=${encodeURIComponent(url)}`, "foto.png");
+      await downloadBlob(`https://speedhosting.cloud:2009/ferramentas/hd?img=${encodeURIComponent(url)}`, "foto.png");
     }
   </script>
 </body>
 </html>
+
